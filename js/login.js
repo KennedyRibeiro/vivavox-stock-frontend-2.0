@@ -5,10 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
     loginForm.addEventListener('submit', (event) => {
         event.preventDefault();
 
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
 
-        // Validação básica (você pode adicionar lógica de autenticação real aqui)
+        // Limpar mensagens de erro
+        errorMsg.textContent = '';
+
         if (username && password) {
             fetch('path/to/login', { // Substitua pelo endpoint real
                 method: 'POST',
@@ -22,10 +24,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (data.success) {
                     window.location.href = 'home.html'; // Redireciona para a página inicial
                 } else {
-                    errorMsg.textContent = 'Credenciais inválidas. Tente novamente.';
+                    errorMsg.textContent = data.message || 'Credenciais inválidas. Tente novamente.';
                 }
             })
-            .catch(error => console.error('Erro ao fazer login:', error));
+            .catch(error => {
+                console.error('Erro ao fazer login:', error);
+                errorMsg.textContent = 'Ocorreu um erro ao tentar fazer login. Tente novamente.';
+            });
         } else {
             errorMsg.textContent = 'Por favor, preencha todos os campos.';
         }

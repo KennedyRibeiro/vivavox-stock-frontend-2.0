@@ -17,11 +17,19 @@ document.addEventListener('DOMContentLoaded', () => {
             body: JSON.stringify({ type, condition, quantity })
         })
         .then(response => response.json())
-        .then(() => {
-            alert('Equipamento adicionado com sucesso!');
-            addEquipmentForm.reset();
+        .then(data => {
+            if (data.success) {
+                alert('Equipamento adicionado com sucesso!');
+                addEquipmentForm.reset();
+                // Atualize a interface do usuário aqui, se necessário
+            } else {
+                alert(data.message || 'Falha ao adicionar equipamento.');
+            }
         })
-        .catch(error => console.error('Erro ao adicionar equipamento:', error));
+        .catch(error => {
+            console.error('Erro ao adicionar equipamento:', error);
+            alert('Ocorreu um erro ao adicionar o equipamento. Tente novamente.');
+        });
     });
 
     removeEquipmentForm.addEventListener('submit', (event) => {
@@ -39,10 +47,18 @@ document.addEventListener('DOMContentLoaded', () => {
             body: JSON.stringify({ type, condition, quantity })
         })
         .then(response => response.json())
-        .then(() => {
-            alert('Equipamento removido com sucesso!');
-            removeEquipmentForm.reset();
+        .then(data => {
+            if (data.success) {
+                alert('Equipamento removido com sucesso!');
+                removeEquipmentForm.reset();
+                // Atualize a interface do usuário aqui, se necessário
+            } else {
+                alert(data.message || 'Falha ao remover equipamento.');
+            }
         })
-        .catch(error => console.error('Erro ao remover equipamento:', error));
+        .catch(error => {
+            console.error('Erro ao remover equipamento:', error);
+            alert('Ocorreu um erro ao remover o equipamento. Tente novamente.');
+        });
     });
 });
